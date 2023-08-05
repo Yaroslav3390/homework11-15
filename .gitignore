@@ -2,4 +2,4 @@ touch .gitignore
 # добавляем в файл правила игнорирования
 git add .gitignore
 git commit -m 'add gitignore'
-cached <settings.properties>
+git rm -- cached <settings.properties>

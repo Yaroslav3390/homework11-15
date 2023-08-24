@@ -2,6 +2,7 @@ package org.example;
 
 import com.google.gson.Gson;
 import dto.CredentialsDto;
+import io.restassured.RestAssured;
 import org.apache.groovy.ast.tools.ImmutablePropertyUtils;
 import org.apache.http.HttpStatus;
 
@@ -18,10 +19,8 @@ public class SetupFunctions {
    private  String username;
     private String password;
     private String baseUrl;
+    private String baseUrlWeb;
 
-    public String getBaseUrl(){
-        return baseUrl;
-    }
 
 
     public SetupFunctions() {
@@ -30,37 +29,44 @@ public class SetupFunctions {
             Properties properties = new Properties();
             properties.load(input);
 
-//            api
             baseUrl = properties.getProperty("baseUrl");
             username = properties.getProperty("username");
             password = properties.getProperty("password");
-
+            baseUrlWeb = properties.getProperty("baseUrlWeb");
 
         } catch (IOException e){
             e.printStackTrace();
-
         }
     }
+    public String getBaseUrl (){
+        return baseUrl;}
 
     public String  getToken(){
 
         CredentialsDto credentialsDto = new CredentialsDto();
-//        init from property file
-        credentialsDto.setPassword(password);
+
         credentialsDto.setUsername(username);
+
+        credentialsDto.setPassword(password);
+
+
 
         Gson gson = new Gson();
         String credentioals = gson.toJson(credentialsDto);
 
 
-        String token = given()
+        String token = RestAssured.given()
                 .when()
                 .header("Content-Type", "application/json")
-                .body(credentioals)
                 .log()
                 .all()
-                .post("http://51.250.6.164:8080/login/student")
+                .body(credentioals)
+                .when()
+                .post(baseUrl + "/login/student")
                 .then()
+                .log()
+                .all()
+                .and()
                 .extract()
                 .asString();
 

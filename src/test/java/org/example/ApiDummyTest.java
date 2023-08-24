@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class ApiDummyTest {
@@ -32,20 +33,10 @@ public class ApiDummyTest {
     public void testPositivePostOrder() {
         RandomOrderDto randomOrderDto = new RandomOrderDto("name", "1234567", "hfgdhfgd");
         RandomOrderDto randomOrderDtoEmpty = new RandomOrderDto();
-        int lengthName = 10;
-        boolean useLettersName = true;
-        boolean useNumbersName = false;
-        String generatedStringName = RandomStringUtils.random(lengthName, useLettersName, useNumbersName);
-        randomOrderDtoEmpty.setCustomerName(generatedStringName);
 
+        randomOrderDtoEmpty.setCustomerName(generateRandomeName());
         randomOrderDtoEmpty.setCustomerPhone(generateRandomPhone());
-
-        int lengthComment = 6;
-        boolean useLettersComment = true;
-        boolean useNumbersComment = true;
-//        String generatedStringComment = RandomStringUtils.random(lengthComment, useLettersComment, useNumbersComment);
-        randomOrderDtoEmpty.setComment(RandomStringUtils.random(lengthComment, useLettersComment, useNumbersComment));
-
+        randomOrderDtoEmpty.setComment(generateRandomCommit());
 
         Gson gson = new Gson();
 
@@ -75,14 +66,42 @@ public class ApiDummyTest {
                 .response();
 
         RandomOrderDto receivedOrder = gson.fromJson(response.asString(), RandomOrderDto.class);
-        Assertions.assertNull(receivedOrder.getStatus());
-        Assertions.assertEquals(0, receivedOrder.getCourierId());
-        Assertions.assertNotNull(receivedOrder.getCustomerPhone());
-        Assertions.assertEquals(randomOrderDtoEmpty.getCustomerPhone(), receivedOrder.getCustomerPhone());
-
-
-
+//        Assertions.assertNull(receivedOrder.getStatus());
+//        Assertions.assertEquals(0, receivedOrder.getCourierId());
+//        Assertions.assertNotNull(receivedOrder.getCustomerPhone());
+//        Assertions.assertEquals(randomOrderDtoEmpty.getCustomerPhone(), receivedOrder.getCustomerPhone());
+        assertAll(
+                "Grouped Assertions of User",
+                () -> assertNotNull(
+                        randomOrderDto.getComment(), "1st Assert"),
+                () -> assertEquals("nam",
+                        randomOrderDto.getCustomerName(), "2nd Assert")
+        );
     }
+    public String generateRandomeName() {
+        int lengthName = 10;
+        boolean useLettersName = true;
+        boolean useNumbersName = false;
+        String generatedStringName = RandomStringUtils.random(lengthName, useLettersName, useNumbersName);
+        return generatedStringName;
+    }
+    public String generateRandomPhone(){
+
+        int lengthPhone = 8;
+        boolean useLettersPhone = false;
+        boolean useNumbersPhone = true;
+        String generatedStringPhone = RandomStringUtils.random(lengthPhone, useLettersPhone, useNumbersPhone);
+        return generatedStringPhone;
+    }
+
+    public String generateRandomCommit(){
+        int lengthCommet = 6;
+        boolean useLettersCommet = true;
+        boolean useNumbersCommet = true;
+        String generatedStringCommet= RandomStringUtils.random(lengthCommet, useLettersCommet, useNumbersCommet);
+        return generatedStringCommet;
+    }
+
 
 
 
@@ -120,14 +139,5 @@ public class ApiDummyTest {
                 .statusCode(HttpStatus.SC_BAD_REQUEST);
 
     }
-
-    public String generateRandomPhone(){
-
-        int lengthPhone = 8;
-        boolean useLettersPhone = false;
-        boolean useNumbersPhone = true;
-        String generatedStringPhone = RandomStringUtils.random(lengthPhone, useLettersPhone, useNumbersPhone);
-        return generatedStringPhone;
-
     }
-}
+

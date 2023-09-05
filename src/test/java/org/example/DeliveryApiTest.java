@@ -351,82 +351,82 @@ public class DeliveryApiTest {
         }
     }
 
-            public String generatedRandomCustomerName() {
-                RandomStringUtils randomStringUtils = new RandomStringUtils();
-                int lengthCustomerName = 10;
-                boolean useLettersCustomerName = true;
-                boolean useSymbolsCustomerName = true;
-                String generatedStringCustomerName = RandomStringUtils.random(lengthCustomerName, useLettersCustomerName, useSymbolsCustomerName);
+    public String generatedRandomCustomerName() {
+        RandomStringUtils randomStringUtils = new RandomStringUtils();
+        int lengthCustomerName = 10;
+        boolean useLettersCustomerName = true;
+        boolean useSymbolsCustomerName = true;
+        String generatedStringCustomerName = RandomStringUtils.random(lengthCustomerName, useLettersCustomerName, useSymbolsCustomerName);
 
-                return generatedStringCustomerName;
-            }
+        return generatedStringCustomerName;
+    }
 
-            public String generatedRandomCustomerPhone() {
-                RandomStringUtils randomStringUtils = new RandomStringUtils();
-                int lengthCustomerPhone = 12;
-                boolean useNumbersCustomerPhone = true;
-                boolean useSymbolsCustomerPhone = false;
-                String generatedStringCustomerPhone = RandomStringUtils.random(lengthCustomerPhone, useSymbolsCustomerPhone, useNumbersCustomerPhone);
+    public String generatedRandomCustomerPhone() {
+        RandomStringUtils randomStringUtils = new RandomStringUtils();
+        int lengthCustomerPhone = 12;
+        boolean useNumbersCustomerPhone = true;
+        boolean useSymbolsCustomerPhone = false;
+        String generatedStringCustomerPhone = RandomStringUtils.random(lengthCustomerPhone, useSymbolsCustomerPhone, useNumbersCustomerPhone);
 
-                return generatedStringCustomerPhone;
-            }
+        return generatedStringCustomerPhone;
+    }
 
-            public String generatedRandomComment() {
-                int lengthComment = 15;
-                boolean useLettersComment = true;
-                boolean useNumbersComment = true;
-                String generatedStringComment = RandomStringUtils.random(lengthComment, useLettersComment, useNumbersComment);
+    public String generatedRandomComment() {
+        int lengthComment = 15;
+        boolean useLettersComment = true;
+        boolean useNumbersComment = true;
+        String generatedStringComment = RandomStringUtils.random(lengthComment, useLettersComment, useNumbersComment);
 
-                return generatedStringComment;
-            }
+        return generatedStringComment;
+    }
 
-            @Test
-            public void generatedCreateOrder() {
-                OrderRealDto generatedOrder = new OrderRealDto();
-                generatedOrder.setStatus("OPEN");
-                generatedOrder.setCourierId(0);
-                generatedOrder.setCustomerName(generatedRandomCustomerName());
-                generatedOrder.setCustomerPhone(generatedRandomCustomerPhone());
-                generatedOrder.setComment(generatedRandomComment());
-                generatedOrder.setId(0);
+    @Test
+    public void generatedCreateOrder() {
+        OrderRealDto generatedOrder = new OrderRealDto();
+        generatedOrder.setStatus("OPEN");
+        generatedOrder.setCourierId(0);
+        generatedOrder.setCustomerName(generatedRandomCustomerName());
+        generatedOrder.setCustomerPhone(generatedRandomCustomerPhone());
+        generatedOrder.setComment(generatedRandomComment());
+        generatedOrder.setId(0);
 
-                Gson gsonGeneratedOrder = new Gson();
+        Gson gsonGeneratedOrder = new Gson();
 
-                OrderRealDto[] generatedOrderArray = {generatedOrder, generatedOrder, generatedOrder};
-                for (int i = 0; i < generatedOrderArray.length; i++)
+        OrderRealDto[] generatedOrderArray = {generatedOrder, generatedOrder, generatedOrder};
+        for (int i = 0; i < generatedOrderArray.length; i++)
 
-                    given()
-                            .when()
-                            .header("Content-Type", "application/json")
-                            .header("Authorization", "Bearer " + token)
-                            .body(gsonGeneratedOrder.toJson(generatedOrder))
-                            .log()
-                            .all()
-                            .post("/orders")
-                            .then()
-                            .log()
-                            .all()
-                            .statusCode(HttpStatus.SC_OK);
+            given()
+                    .when()
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + token)
+                    .body(gsonGeneratedOrder.toJson(generatedOrder))
+                    .log()
+                    .all()
+                    .post("/orders")
+                    .then()
+                    .log()
+                    .all()
+                    .statusCode(HttpStatus.SC_OK);
 
-                Assertions.assertNotNull(generatedOrder.getId());
+        Assertions.assertNotNull(generatedOrder.getId());
 
-                OrderRealDto[] checkNewCreatedOrders = RestAssured.given()
-                        .when()
-                        .header("Content-Type", "application/json")
-                        .header("Authorization", "Bearer " + token)
-                        .log()
-                        .all()
-                        .get("/orders")
-                        .then()
-                        .log()
-                        .all()
-                        .statusCode(HttpStatus.SC_OK)
-                        .extract()
-                        .as(OrderRealDto[].class);
+        OrderRealDto[] checkNewCreatedOrders = RestAssured.given()
+                .when()
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + token)
+                .log()
+                .all()
+                .get("/orders")
+                .then()
+                .log()
+                .all()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .as(OrderRealDto[].class);
 
-                Assertions.assertEquals(0, generatedOrder.getCourierId());
+        Assertions.assertEquals(0, generatedOrder.getCourierId());
 
-            }
+    }
 
 
-            }
+}

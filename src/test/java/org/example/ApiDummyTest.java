@@ -40,16 +40,6 @@ public class ApiDummyTest {
 
         Gson gson = new Gson();
 
-//        String requestBody = "{\n" +
-//                "  \"status\": \"DELIVERED\",\n" +
-//                "  \"courierId\": 10,\n" +
-//                "  \"customerName\": \"Myname\",\n" +
-//                "  \"customerPhone\": \"123456\",\n" +
-//                "  \"comment\": \"cmnt\",\n" +
-//                "  \"id\": 5\n" +
-//                "}";
-
-
 
         Response response = given()
                 .when()
@@ -66,10 +56,7 @@ public class ApiDummyTest {
                 .response();
 
         RandomOrderDto receivedOrder = gson.fromJson(response.asString(), RandomOrderDto.class);
-//        Assertions.assertNull(receivedOrder.getStatus());
-//        Assertions.assertEquals(0, receivedOrder.getCourierId());
-//        Assertions.assertNotNull(receivedOrder.getCustomerPhone());
-//        Assertions.assertEquals(randomOrderDtoEmpty.getCustomerPhone(), receivedOrder.getCustomerPhone());
+
         assertAll(
                 "Grouped Assertions of User",
                 () -> assertNotNull(
@@ -118,11 +105,8 @@ public class ApiDummyTest {
                 .all()
                 .statusCode(HttpStatus.SC_OK)
                 .extract()
-//                .asString();
                 .path("status");
         Assertions.assertEquals("OPEN", status );
-
-//        Assertions.assertTrue(response.contains("OPEN"));
     }
 
     @Test

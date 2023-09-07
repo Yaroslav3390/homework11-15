@@ -219,27 +219,6 @@ public class DeliveryApiTest {
 
     }
 
-
-//    @Test
-//    public void createOrderInvalidRequestBodyDto() {
-//
-//        OrderRealDto orderRealDto = new OrderRealDto(null, "12345678", "comment", 4, 455);
-//        Gson gson = new Gson();
-//
-//        given()
-//                .when()
-//                .header("Content-Type", "application/json")
-//                .header("Authorization", "Bearer " + token)
-//                .log()
-//                .all()
-//                .body(gson.toJson(orderRealDto))
-//                .post("/orders")
-//                .then()
-//                .log()
-//                .all()
-//                .statusCode(HttpStatus.SC_BAD_REQUEST);
-//    }
-
     @Test
 
     public int createOrderAndReturnOrderId() {

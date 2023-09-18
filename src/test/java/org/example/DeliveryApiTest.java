@@ -372,7 +372,7 @@ public class DeliveryApiTest {
         Gson gsonGeneratedOrder = new Gson();
 
         OrderRealDto[] generatedOrderArray = {generatedOrder, generatedOrder, generatedOrder};
-        for (int i = 0; i < generatedOrderArray.length; i++)
+//        for (int i = 0; i < generatedOrderArray.length; i++)
 
             given()
                     .when()

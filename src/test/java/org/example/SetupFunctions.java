@@ -3,16 +3,11 @@ package org.example;
 import com.google.gson.Gson;
 import dto.CredentialsDto;
 import io.restassured.RestAssured;
-import org.apache.groovy.ast.tools.ImmutablePropertyUtils;
-import org.apache.http.HttpStatus;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import java.util.PropertyPermission;
-
-import static io.restassured.RestAssured.given;
 
 public class SetupFunctions {
 
@@ -20,6 +15,12 @@ public class SetupFunctions {
     private String password;
     private String baseUrl;
     private String baseUrlWeb;
+    private String dbhost;
+    private String dbport;
+    private String dbname;
+    private String dbusername;
+    private String dbpassword;
+
 
     public String getUsername() {
         return username;
@@ -57,6 +58,12 @@ public class SetupFunctions {
             username = properties.getProperty("username");
             password = properties.getProperty("password");
             baseUrlWeb = properties.getProperty("baseUrlWeb");
+            dbhost = properties.getProperty("dbhost");
+            dbport = properties.getProperty("dbport");
+            dbname = properties.getProperty("dbname");
+            dbusername = properties.getProperty("dbusername");
+            dbpassword = properties.getProperty("dbpassword");
+
 
         } catch (IOException e){
             e.printStackTrace();
@@ -96,5 +103,45 @@ public class SetupFunctions {
 
         return token;
 
+    }
+
+    public String getDbhost() {
+        return dbhost;
+    }
+
+    public void setDbhost(String dbhost) {
+        this.dbhost = dbhost;
+    }
+
+    public String getDbport() {
+        return dbport;
+    }
+
+    public void setDbport(String dbport) {
+        this.dbport = dbport;
+    }
+
+    public String getDbname() {
+        return dbname;
+    }
+
+    public void setDbname(String dbname) {
+        this.dbname = dbname;
+    }
+
+    public String getDbusername() {
+        return dbusername;
+    }
+
+    public void setDbusername(String dbusername) {
+        this.dbusername = dbusername;
+    }
+
+    public String getDbpassword() {
+        return dbpassword;
+    }
+
+    public void setDbpassword(String dbpassword) {
+        this.dbpassword = dbpassword;
     }
 }
